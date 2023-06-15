@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>OSI模型和TCPIP模型 | yangshuai-wang's blogs</title><meta name="keywords" content="计算机网络、计算机基础"><meta name="author" content="yangshuai-wang"><meta name="copyright" content="yangshuai-wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. 什么是 OSI 模型？开放系统互连 (OSI) 模型是由国际标准化组织创建的概念模型，支持各种通信系统使用标准协议进行通信。简单而言，OSI 为保证不同计算机系统能够相互通信提供了标准。 OSI 模型的每一层负责处理特定作业并与其上下层进行通信。DDoS 攻击的目标是特定的网络连接层；应用程序层攻击的目标第 7 层，协议层攻击的目标第 3 层和第 4 层。   2. OSI协议OSI协议是为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OSI模型和TCPIP模型">
+<meta property="og:url" content="http://example.com/2023/06/15/OSI%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="yangshuai-wang&#39;s blogs">
+<meta property="og:description" content="1. 什么是 OSI 模型？开放系统互连 (OSI) 模型是由国际标准化组织创建的概念模型，支持各种通信系统使用标准协议进行通信。简单而言，OSI 为保证不同计算机系统能够相互通信提供了标准。 OSI 模型的每一层负责处理特定作业并与其上下层进行通信。DDoS 攻击的目标是特定的网络连接层；应用程序层攻击的目标第 7 层，协议层攻击的目标第 3 层和第 4 层。   2. OSI协议OSI协议是为">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.imagehub.cc/images/2023/05/30/wallhaven-x15dxv.png">
+<meta property="article:published_time" content="2023-06-15T13:22:02.000Z">
+<meta property="article:modified_time" content="2023-06-15T13:26:06.673Z">
+<meta property="article:author" content="yangshuai-wang">
+<meta property="article:tag" content="计算机网络、计算机基础">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.imagehub.cc/images/2023/05/30/wallhaven-x15dxv.png"><link rel="shortcut icon" href="/img/wallhaven-lqdgql.png"><link rel="canonical" href="http://example.com/2023/06/15/OSI%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E6%A8%A1%E5%9E%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OSI模型和TCPIP模型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-15 21:26:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/dog.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s1.imagehub.cc/images/2023/05/30/wallhaven-x15dxv.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">yangshuai-wang's blogs</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">OSI模型和TCPIP模型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-15T13:22:02.000Z" title="发表于 2023-06-15 21:22:02">2023-06-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-15T13:26:06.673Z" title="更新于 2023-06-15 21:26:06">2023-06-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="OSI模型和TCPIP模型"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="1-什么是-OSI-模型？"><a href="#1-什么是-OSI-模型？" class="headerlink" title="1. 什么是 OSI 模型？"></a>1. 什么是 OSI 模型？</h3><p>开放系统互连 (OSI) 模型是由国际标准化组织创建的概念模型，支持各种通信系统使用标准<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/network-layer/what-is-a-protocol/">协议</a>进行通信。简单而言，OSI 为保证不同计算机系统能够相互通信提供了标准。</p>
+<p>OSI 模型的每一层负责处理特定作业并与其上下层进行通信。<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/ddos/what-is-a-ddos-attack/">DDoS 攻击</a>的目标是特定的网络连接层；<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/ddos/application-layer-ddos-attack/">应用程序层攻击</a>的目标<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/ddos/what-is-layer-7/">第 7 层</a>，协议层攻击的目标第 3 层和第 4 层。</p>
+<img src="/2023/06/15/OSI%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E6%A8%A1%E5%9E%8B/OSI%E4%B8%83%E5%B1%82.png" class="">
+
+<h3 id="2-OSI协议"><a href="#2-OSI协议" class="headerlink" title="2. OSI协议"></a>2. OSI协议</h3><p>OSI协议是为了让异构的计算机之间能够相互通信的、由ISO和ITU-T推进其标准化的一种网络体系结构。</p>
+<p>OSI（参考模型）将通信功能划分为7个分层，称作OSI参考模型。OSI协议以OSI参考模型为基础界定了每个阶层的协议和每个阶层之间接口相关的标准。遵循OSI协议的产品叫OSI产品，而它们所遵循的通信则被称为OSI通信。</p>
+<h3 id="3-OSI-模型的七个层是什么？"><a href="#3-OSI-模型的七个层是什么？" class="headerlink" title="3. OSI 模型的七个层是什么？"></a>3. OSI 模型的七个层是什么？</h3><p>自顶向下：应用层、表示层、会话层、传输层、网络层、数据链路层、物理层。</p>
+<img src="/2023/06/15/OSI%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E6%A8%A1%E5%9E%8B/OSI7.png" class="">
+
+<h4 id="3-1-应用层"><a href="#3-1-应用层" class="headerlink" title="3.1. 应用层"></a>3.1. 应用层</h4><p>这是唯一直接接触用户数据的层。软件应用程序（如 Web 浏览器和电子邮件客户端）依靠应用程序层发起通信。但需要明确的是，客户端软件应用程序不属于应用程序层；相反，应用程序层负责协议和数据操作，软件依靠上述操作向用户呈现有效数据。应用程序层协议包括 <a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/ddos/glossary/hypertext-transfer-protocol-http/">HTTP</a> 和 <a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/email-security/what-is-smtp/">SMTP</a>。</p>
+<h4 id="3-2-表示层"><a href="#3-2-表示层" class="headerlink" title="3.2. 表示层"></a>3.2. 表示层</h4><p>主要负责准备数据，以便应用程序层进行使用；表示层负责完成数据转换、<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/ssl/what-is-encryption/">加密</a>和压缩。</p>
+<p>两台相互通信的设备可能使用不同的编码方法，因此第 6 层负责将传入数据转换为接收设备应用程序层可以理解的语法。</p>
+<p>如果设备通过加密连接进行通信，则第 6 层负责发送端加密和接收端解密，以便向应用程序层呈现非加密可读数据。</p>
+<p>最后，表示层还负责压缩从应用程序层接收的数据，然后将数据传递到第 5 层。这有助于尽量减少要传输的数据量，从而提高通信速度和效率。</p>
+<h4 id="3-3-会话层"><a href="#3-3-会话层" class="headerlink" title="3.3. 会话层"></a>3.3. 会话层</h4><p>负责打开和关闭两个设备之间的通信。通信打开与关闭之间的时间称为会话。会话层用于确保会话保持打开的时长足以传输所有交换数据，而后立即关闭会话以避免浪费资源。</p>
+<p>会话层还负责同步数据传输与检查点。例如，如果传输一个 100MB 的文件，会话层可以每 5MB 设置一个检查点。如果在传输了 52MB 后连接断开或崩溃，可以从最后一个检查点恢复会话，也就是只需再传输 50MB 数据。若未设置检查点，则必须从头开始传输整个文件。</p>
+<h4 id="3-4-传输层"><a href="#3-4-传输层" class="headerlink" title="3.4. 传输层"></a>3.4. 传输层</h4><p>负责两个设备间的端到端通信。包括从会话层提取数据，将数据分解为多个区块（称为数据段），然后再发送到第 3 层。接收设备传输层负责重组数据段，确保数据可供会话层使用。</p>
+<p>传输层还负责进行流量控制和错误控制。流量控制用于确定最佳传输速度，避免采用快速连接的发件人淹没采用慢速连接的收件人。传输层通过确保接收数据的完整性（如果不完整，则请求重新传输）来对接收端进行错误控制。</p>
+<h4 id="3-5-网络层"><a href="#3-5-网络层" class="headerlink" title="3.5. 网络层"></a>3.5. 网络层</h4><p><a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/network-layer/what-is-the-network-layer/">网络层</a>负责促进两个不同网络之间的数据传输。如果两台通信设备位于同一网络，则不需要使用网络层。网络层在发送设备上将传输层发出的数据段分解更小的单元（称为<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/network-layer/what-is-a-packet/">数据包</a>），再在接收设备上重组这些数据包。网络层还要确定数据到达目标的最佳物理路径；人们将此称为<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/network-layer/what-is-routing/">路由</a>。</p>
+<h4 id="3-6-数据链路层"><a href="#3-6-数据链路层" class="headerlink" title="3.6. 数据链路层"></a>3.6. 数据链路层</h4><p>数据链路层与网络层十分相似，但数据链路层用于促进<em>同一</em>网络上两台设备之间的数据传输。数据链路层从网络层提取数据包并将数据包分解成更小的部分（称为帧）。与网络层一样，数据链路层也负责网络内部通信流量控制和错误控制（传输层仅负责网络间通信流量控制和错误控制）。</p>
+<h4 id="3-7-物理层"><a href="#3-7-物理层" class="headerlink" title="3.7. 物理层"></a>3.7. 物理层</h4><p>这一层包括参与数据传输的物理设备，如电缆和<a target="_blank" rel="noopener" href="https://www.cloudflare-cn.com/learning/network-layer/what-is-a-network-switch/">交换机</a>。同时还负责将数据转换为位流，也就是由 1 和 0 构成的字符串。另外，两台设备的物理层必须达成信号约定，以便区分两台设备的字符串 1 和 0。</p>
+<h3 id="4-TCP-x2F-IP网络模型有哪几层？"><a href="#4-TCP-x2F-IP网络模型有哪几层？" class="headerlink" title="4. TCP&#x2F;IP网络模型有哪几层？"></a>4. TCP&#x2F;IP网络模型有哪几层？</h3><p>应用层、传输层、网络层、网络接口层。</p>
+<p>网络接口层的传输单位是帧（frame），IP 层的传输单位是包（packet），TCP 层的传输单位是段（segment），HTTP 的传输单位则是消息或报文（message）。但这些名词并没有什么本质的区分，可以统称为数据包。</p>
+<h4 id="4-1-应用层"><a href="#4-1-应用层" class="headerlink" title="4.1. 应用层"></a>4.1. 应用层</h4><p>应用层（Application Layer）只需要专注于为用户提供应用功能，比如 HTTP、FTP、Telnet、DNS、SMTP等。应用层是不用去关心数据是如何传输的。而且应用层是工作在操作系统中的用户态，传输层及以下则工作在内核态。</p>
+<h4 id="4-2-传输层"><a href="#4-2-传输层" class="headerlink" title="4.2. 传输层"></a>4.2. 传输层</h4><p>应用层的数据包会传给传输层，传输层（Transport Layer）是为应用层提供网络支持的。</p>
+<p>在传输层会有两个传输协议，分别是 TCP 和 UDP。</p>
+<p>TCP 的全称叫传输控制协议（<strong>Transmission Control Protocol</strong>），大部分应用使用的正是 TCP 传输层协议，比如 HTTP 应用层协议。TCP 相比 UDP 多了很多特性，比如流量控制、超时重传、拥塞控制等，这些都是为了保证数据包能可靠地传输给对方。</p>
+<p>UDP 相对来说就很简单，简单到只负责发送数据包，不保证数据包是否能抵达对方，但它实时性相对更好，传输效率也高。</p>
+<p>应用需要传输的数据可能会非常大，如果直接传输就不好控制，因此当传输层的数据包大小超过 MSS（TCP 最大报文段长度） ，就要将数据包分块，这样即使中途有一个分块丢失或损坏了，只需要重新发送这一个分块，而不用重新发送整个数据包。在 TCP 协议中，我们把每个分块称为一个 TCP 段（TCP Segment）。</p>
+<h4 id="4-3-网络层"><a href="#4-3-网络层" class="headerlink" title="4.3. 网络层"></a>4.3. 网络层</h4><p>网络层最常使用的是 IP 协议（Internet Protocol），IP 协议会将传输层的报文作为数据部分，再加上 IP 包头组装成 IP 报文，如果 IP 报文大小超过 MTU（以太网中一般为 1500 字节）就会<strong>再次进行分片</strong>，得到一个即将发送到网络的 IP 报文。</p>
+<p>网络层负责将数据从一个设备传输到另一个设备。</p>
+<p>一般用 IP 地址给设备进行编号，对于 IPv4 协议， IP 地址共 32 位，分成了四段（比如，192.168.100.1），每段是 8 位。</p>
+<p>IP地址有两部分组成：</p>
+<ul>
+<li>一个是<strong>网络号</strong>，负责标识该 IP 地址是属于哪个「子网」的；</li>
+<li>一个是<strong>主机号</strong>，负责标识同一「子网」下的不同主机；</li>
+</ul>
+<p><strong>IP 协议的寻址作用是告诉我们去往下一个目的地该朝哪个方向走，路由则是根据「下一个目的地」选择路径。</strong></p>
+<h4 id="4-4-网络接口层"><a href="#4-4-网络接口层" class="headerlink" title="4.4. 网络接口层"></a>4.4. 网络接口层</h4><p><strong>网络接口层</strong>（Link Layer）在 IP 头部的前面加上 MAC 头部，并封装成数据帧（Data frame）发送到网络上。</p>
+<p>MAC 头部是以太网使用的头部，它包含了接收方和发送方的 MAC 地址等信息，我们可以通过 <strong>ARP 协议</strong>获取对方的 MAC 地址。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E3%80%81%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机网络、计算机基础</a></div><div class="post_share"><div class="social-share" data-image="https://s1.imagehub.cc/images/2023/05/30/wallhaven-x15dxv.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/30/ThreadLocal/"><img class="next-cover" src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-w8emox.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ThreadLocal</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/dog.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">yangshuai-wang</div><div class="author-info__description">good good study! day day up!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wangys102"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/wangys102" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF-OSI-%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">1. 什么是 OSI 模型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-OSI%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">2. OSI协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-OSI-%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%B8%83%E4%B8%AA%E5%B1%82%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">3.</span> <span class="toc-text">3. OSI 模型的七个层是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">3.1.</span> <span class="toc-text">3.1. 应用层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E8%A1%A8%E7%A4%BA%E5%B1%82"><span class="toc-number">3.2.</span> <span class="toc-text">3.2. 表示层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="toc-number">3.3.</span> <span class="toc-text">3.3. 会话层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">3.4.</span> <span class="toc-text">3.4. 传输层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">3.5.</span> <span class="toc-text">3.5. 网络层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">3.6.</span> <span class="toc-text">3.6. 数据链路层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-%E7%89%A9%E7%90%86%E5%B1%82"><span class="toc-number">3.7.</span> <span class="toc-text">3.7. 物理层</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-TCP-x2F-IP%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E6%9C%89%E5%93%AA%E5%87%A0%E5%B1%82%EF%BC%9F"><span class="toc-number">4.</span> <span class="toc-text">4. TCP&#x2F;IP网络模型有哪几层？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-number">4.1.</span> <span class="toc-text">4.1. 应用层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="toc-number">4.2.</span> <span class="toc-text">4.2. 传输层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-number">4.3.</span> <span class="toc-text">4.3. 网络层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E5%B1%82"><span class="toc-number">4.4.</span> <span class="toc-text">4.4. 网络接口层</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/06/15/OSI%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E6%A8%A1%E5%9E%8B/" title="OSI模型和TCPIP模型"><img src="https://s1.imagehub.cc/images/2023/05/30/wallhaven-x15dxv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="OSI模型和TCPIP模型"/></a><div class="content"><a class="title" href="/2023/06/15/OSI%E6%A8%A1%E5%9E%8B%E5%92%8CTCPIP%E6%A8%A1%E5%9E%8B/" title="OSI模型和TCPIP模型">OSI模型和TCPIP模型</a><time datetime="2023-06-15T13:22:02.000Z" title="发表于 2023-06-15 21:22:02">2023-06-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/30/ThreadLocal/" title="ThreadLocal"><img src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-w8emox.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ThreadLocal"/></a><div class="content"><a class="title" href="/2023/05/30/ThreadLocal/" title="ThreadLocal">ThreadLocal</a><time datetime="2023-05-30T14:47:18.000Z" title="发表于 2023-05-30 22:47:18">2023-05-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/05/18/Java%E4%B9%8BThrowable/" title="Java之Throwable"><img src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-x1j7ld.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java之Throwable"/></a><div class="content"><a class="title" href="/2023/05/18/Java%E4%B9%8BThrowable/" title="Java之Throwable">Java之Throwable</a><time datetime="2023-05-17T17:51:40.000Z" title="发表于 2023-05-18 01:51:40">2023-05-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/30/%E4%BA%8B%E5%8A%A1/" title="事务"><img src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-76w1qv.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="事务"/></a><div class="content"><a class="title" href="/2023/04/30/%E4%BA%8B%E5%8A%A1/" title="事务">事务</a><time datetime="2023-04-30T03:19:16.000Z" title="发表于 2023-04-30 11:19:16">2023-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/30/%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/" title="多表查询"><img src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-39gdd3.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多表查询"/></a><div class="content"><a class="title" href="/2023/04/30/%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2/" title="多表查询">多表查询</a><time datetime="2023-04-30T03:12:26.000Z" title="发表于 2023-04-30 11:12:26">2023-04-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By yangshuai-wang</div><div class="footer_custom_text">Hi, welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
