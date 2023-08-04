@@ -1,0 +1,400 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>MySQL-索引 | yangshuai-wang's blogs</title><meta name="keywords" content="MySQL"><meta name="author" content="yangshuai-wang"><meta name="copyright" content="yangshuai-wang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="索引数据结构什么是二分查找树？二叉查找树的特点是一个节点的左子树的所有节点都小于这个节点，右子树的所有节点都大于这个节点，这样在查询数据时，不需要计算中间节点的位置了，只需将查找的数据与节点的数据进行比较即可。 假设，查找索引值为 key 的节点：  如果 key 大于根节点，则在右子树中进行查找； 如果 key 小于根节点，则在左子树中进行查找； 如果 key 等于根节点，也就是找到了这个节点，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL-索引">
+<meta property="og:url" content="http://example.com/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/index.html">
+<meta property="og:site_name" content="yangshuai-wang&#39;s blogs">
+<meta property="og:description" content="索引数据结构什么是二分查找树？二叉查找树的特点是一个节点的左子树的所有节点都小于这个节点，右子树的所有节点都大于这个节点，这样在查询数据时，不需要计算中间节点的位置了，只需将查找的数据与节点的数据进行比较即可。 假设，查找索引值为 key 的节点：  如果 key 大于根节点，则在右子树中进行查找； 如果 key 小于根节点，则在左子树中进行查找； 如果 key 等于根节点，也就是找到了这个节点，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s1.imagehub.cc/images/2023/08/02/wallhaven-yx2mpd.jpeg">
+<meta property="article:published_time" content="2023-08-01T11:51:02.000Z">
+<meta property="article:modified_time" content="2023-08-02T13:46:31.002Z">
+<meta property="article:author" content="yangshuai-wang">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s1.imagehub.cc/images/2023/08/02/wallhaven-yx2mpd.jpeg"><link rel="shortcut icon" href="/img/wallhaven-lqdgql.png"><link rel="canonical" href="http://example.com/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL-索引',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-08-02 21:46:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/dog.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s1.imagehub.cc/images/2023/08/02/wallhaven-yx2mpd.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">yangshuai-wang's blogs</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL-索引</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-01T11:51:02.000Z" title="发表于 2023-08-01 19:51:02">2023-08-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-02T13:46:31.002Z" title="更新于 2023-08-02 21:46:31">2023-08-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/MySQL/">MySQL</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="MySQL-索引"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="索引数据结构"><a href="#索引数据结构" class="headerlink" title="索引数据结构"></a>索引数据结构</h1><h2 id="什么是二分查找树？"><a href="#什么是二分查找树？" class="headerlink" title="什么是二分查找树？"></a>什么是二分查找树？</h2><p><strong>二叉查找树的特点是一个节点的左子树的所有节点都小于这个节点，右子树的所有节点都大于这个节点</strong>，这样在查询数据时，不需要计算中间节点的位置了，只需将查找的数据与节点的数据进行比较即可。</p>
+<p>假设，查找索引值为 key 的节点：</p>
+<ol>
+<li>如果 key 大于根节点，则在右子树中进行查找；</li>
+<li>如果 key 小于根节点，则在左子树中进行查找；</li>
+<li>如果 key 等于根节点，也就是找到了这个节点，返回根节点即可。</li>
+</ol>
+<p>二叉查找树解决了插入新节点的问题，因为二叉查找树是一个跳跃结构，不必连续排列。这样在插入的时候，新节点可以放在任何位置，不会像线性结构那样插入一个元素，所有元素都需要向后排列。</p>
+<p>因此，二叉查找树解决了连续结构插入新元素开销很大的问题，同时又保持着天然的二分结构。</p>
+<p><strong>但是，二叉查找树存在一个极端情况：</strong></p>
+<p>**当每次插入的元素都是二叉查找树中最大的元素，二叉查找树就会退化成了一条链表，查找数据的时间复杂度变成了 O(n)**。</p>
+<p>由于树是存储在磁盘中的，访问每个节点，都对应一次磁盘 I&#x2F;O 操作（<em>假设一个节点的大小「小于」操作系统的最小读写单位块的大小</em>），也就是说<strong>树的高度就等于每次查询数据时磁盘 IO 操作的次数</strong>，所以树的高度越高，就会影响查询性能。</p>
+<p>二叉查找树由于存在退化成链表的可能性，会使得查询操作的时间复杂度从 O(logn) 升为 O(n)。</p>
+<p>而且会随着插入的元素越多，树的高度也变高，意味着需要磁盘 IO 操作的次数就越多，这样导致查询性能严重下降，再加上不能范围查询，所以不适合作为数据库的索引结构。</p>
+<h2 id="什么是自平衡二叉树？"><a href="#什么是自平衡二叉树？" class="headerlink" title="什么是自平衡二叉树？"></a>什么是自平衡二叉树？</h2><p>为了解决二叉查找树会在极端情况下退化成链表的问题，提出<strong>平衡二叉查找树（AVL 树）</strong>。</p>
+<p>是在二叉查找树的基础上增加了一些条件约束：<strong>每个节点的左子树和右子树的高度差不能超过 1</strong>。也就是说节点的左子树和右子树仍然为平衡二叉树，这样查询操作的时间复杂度就会一直维持在 O(logn) 。</p>
+<p>下图是每次插入的元素都是平衡二叉查找树中最大的元素，可以看到，它会维持自平衡：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/1.gif" class="">
+
+<p><strong>不管平衡二叉查找树还是红黑树，都会随着插入的元素增多，而导致树的高度变高，这就意味着磁盘 I&#x2F;O 操作次数多，会影响整体数据查询的效率</strong>。</p>
+<p>比如，下面这个平衡二叉查找树的高度为 5，那么在访问最底部的节点时，就需要磁盘 5 次 I&#x2F;O 操作。</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/2.png" class="">
+
+<p>根本原因是因为它们都是二叉树，也就是每个节点只能保存 2 个子节点。如果把二叉树改成 M 叉树（M&gt;2），比如，当 M&#x3D;3 时，在同样的节点个数情况下，三叉树比二叉树的树高要矮。</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/3.png" class="">
+
+<p>因此，<strong>当树的节点越多的时候，并且树的分叉数 M 越大的时候，M 叉树的高度会远小于二叉树的高度</strong>。</p>
+<h2 id="什么是-B-树？"><a href="#什么是-B-树？" class="headerlink" title="什么是 B 树？"></a>什么是 B 树？</h2><p>自平衡二叉树虽然能保持查询操作的时间复杂度在O(logn)，但是因为它本质上是一个二叉树，每个节点只能有 2 个子节点，那么当节点个数越多的时候，树的高度也会相应变高，这样就会增加磁盘的 I&#x2F;O 次数，从而影响数据查询的效率。</p>
+<p>为了解决降低树的高度的问题，后面就出来了 B 树，它不再限制一个节点就只能有 2 个子节点，而是允许 M 个子节点 (M&gt;2)，从而降低树的高度。</p>
+<p><strong>B 树的每一个节点最多可以包括 M 个子节点，M 称为 B 树的阶，所以 B 树就是一个多叉树。</strong></p>
+<p>假设 M &#x3D; 3，那么就是一棵 3 阶的 B 树，特点就是每个节点最多有 2 个（M-1个）数据和最多有 3 个（M个）子节点，超过这些要求的话，就会分裂节点，比如下面的的动图：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/4.gif" class="">
+
+<p>一棵 3 阶的 B 树的查询过程是如下：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/5.gif" class="">
+
+<p>假设在上图一棵 3 阶的 B 树中要查找的索引值是 9 的记录那么步骤可以分为以下几步：</p>
+<ol>
+<li>与根节点的索引(4，8）进行比较，9 大于 8，那么往右边的子节点走；</li>
+<li>然后该子节点的索引为（10，12），因为 9 小于 10，所以会往该节点的左边子节点走；</li>
+<li>走到索引为9的节点，然后我们找到了索引值 9 的节点。</li>
+</ol>
+<p>可以看到，一棵 3 阶的 B 树在查询叶子节点中的数据时，由于树的高度是 3 ，所以在查询过程中会发生 3 次磁盘 I&#x2F;O 操作。</p>
+<p>而如果同样的节点数量在平衡二叉树的场景下，树的高度就会很高，意味着磁盘 I&#x2F;O 操作会更多。所以，B 树在数据查询中比平衡二叉树效率要高。</p>
+<p><strong>缺点：</strong></p>
+<p>B 树的每个节点都包含数据（索引+记录），而用户的记录数据的大小很有可能远远超过了索引数据，这就需要花费更多的磁盘 I&#x2F;O 操作次数来读到「有用的索引数据」。</p>
+<p>而且，在我们查询位于底层的某个节点（比如 A 记录）过程中，非 A 记录节点里的记录数据会从磁盘加载到内存，但是这些记录数据是没用的，我们只是想读取这些节点的索引数据来做比较查询，而非 A 记录节点里的记录数据对我们是没用的，这样不仅增多磁盘 I&#x2F;O 操作次数，也占用内存资源。</p>
+<p>另外，如果使用 B 树来做范围查询的话，需要使用中序遍历，这会涉及多个节点的磁盘 I&#x2F;O 问题，从而导致整体速度下降。</p>
+<h2 id="什么是-B-树？-1"><a href="#什么是-B-树？-1" class="headerlink" title="什么是 B+ 树？"></a>什么是 B+ 树？</h2><p>B+ 树就是对 B 树做了一个升级，MySQL 中索引的数据结构就是采用了 B+ 树，B+ 树结构如下图：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/6.png" class="">
+
+<p>B+ 树与 B 树差异的点，主要是以下这几点：</p>
+<ul>
+<li>叶子节点（最底部的节点）才会存放实际数据（索引+记录），非叶子节点只会存放索引；</li>
+<li>所有索引都会在叶子节点出现，叶子节点之间构成一个有序链表；</li>
+<li>非叶子节点的索引也会同时存在在子节点中，并且是在子节点中所有索引的最大（或最小）。</li>
+<li>非叶子节点中有多少个子节点，就有多少个索引；</li>
+</ul>
+<h3 id="单点查询"><a href="#单点查询" class="headerlink" title="单点查询"></a>单点查询</h3><p>B 树进行单个索引查询时，最快可以在 O(1) 的时间代价内就查到，而从平均时间代价来看，会比 B+ 树稍快一些。</p>
+<p>但是 B 树的查询波动会比较大，因为每个节点即存索引又存记录，所以有时候访问到了非叶子节点就可以找到索引，而有时需要访问到叶子节点才能找到索引。</p>
+<p><strong>B+ 树的非叶子节点不存放实际的记录数据，仅存放索引，因此数据量相同的情况下，相比存储即存索引又存记录的 B 树，B+树的非叶子节点可以存放更多的索引，因此 B+ 树可以比 B 树更「矮胖」，查询底层节点的磁盘 I&#x2F;O次数会更少</strong>。</p>
+<h3 id="插入和删除效率"><a href="#插入和删除效率" class="headerlink" title="插入和删除效率"></a>插入和删除效率</h3><p>B+ 树有大量的冗余节点，这样使得删除一个节点的时候，可以直接从叶子节点中删除，甚至可以不动非叶子节点，这样删除非常快，</p>
+<p>比如下面这个动图是删除 B+ 树 0004 节点的过程，因为非叶子节点有 0004 的冗余节点，所以在删除的时候，树形结构变化很小：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/7.gif" class="">
+
+<p>下面这个动图是删除 B 树 0008 节点的过程，可能会导致树的复杂变化：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/8.gif" class="">
+
+<p>甚至，B+ 树在删除根节点的时候，由于存在冗余的节点，所以不会发生复杂的树的变形，比如下面这个动图是删除 B+ 树根节点的过程：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/9.gif" class="">
+
+<p>B 树则不同，B 树没有冗余节点，删除节点的时候非常复杂，比如删除根节点中的数据，可能涉及复杂的树的变形，比如下面这个动图是删除 B 树根节点的过程：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/10.gif" class="">
+
+<h3 id="范围查询"><a href="#范围查询" class="headerlink" title="范围查询"></a>范围查询</h3><p>B 树和 B+ 树等值查询原理基本一致，先从根节点查找，然后对比目标数据的范围，最后递归的进入子节点查找。因为 <strong>B+ 树所有叶子节点间还有一个链表进行连接，这种设计对范围查找非常有帮助</strong>，而 B 树没有将所有叶子节点用链表串联起来的结构，因此只能通过树的遍历来完成范围查询，这会涉及多个节点的磁盘 I&#x2F;O 操作，范围查询效率不如 B+ 树。</p>
+<p>因此，存在大量范围检索的场景，适合使用 B+树，比如数据库。而对于大量的单个索引查询的场景，可以考虑 B 树，比如 nosql 的MongoDB。</p>
+<h2 id="MySQL-中的-B-树"><a href="#MySQL-中的-B-树" class="headerlink" title="MySQL 中的 B+ 树"></a>MySQL 中的 B+ 树</h2><p>MySQL 的存储方式根据存储引擎的不同而不同，我们最常用的就是 Innodb 存储引擎，它就是采用了 B+ 树作为了索引的数据结构。</p>
+<p>下图是 Innodb 里的 B+ 树：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/11.png" class="">
+
+<p>但是 Innodb 使用的 B+ 树有一些特别的点，比如：</p>
+<ul>
+<li>B+ 树的叶子节点之间是用「双向链表」进行连接，这样的好处是既能向右遍历，也能向左遍历。</li>
+<li>B+ 树点节点内容是数据页，数据页里存放了用户的记录以及各种信息，每个数据页默认大小是 16 KB。</li>
+</ul>
+<p>Innodb 根据索引类型不同，分为聚集和二级索引。他们区别在于，聚集索引的叶子节点存放的是实际数据，所有完整的用户记录都存放在聚集索引的叶子节点，而二级索引的叶子节点存放的是主键值，而不是实际数据。</p>
+<p>因为表的数据都是存放在聚集索引的叶子节点里，所以 InnoDB 存储引擎一定会为表创建一个聚集索引，且由于数据在物理上只会保存一份，所以聚簇索引只能有一个，而二级索引可以创建多个。</p>
+<h2 id="什么是红黑树？"><a href="#什么是红黑树？" class="headerlink" title="什么是红黑树？"></a>什么是红黑树？</h2><h3 id="红黑树的性质"><a href="#红黑树的性质" class="headerlink" title="红黑树的性质"></a>红黑树的性质</h3><p>红黑树是一棵二叉搜索树，它在每个节点增加了一个存储位记录节点的颜色，可以是RED,也可以是BLACK；通过任意一条从根到叶子简单路径上颜色的约束，红黑树保证最长路径不超过最短路径的二倍，因而近似平衡。</p>
+<p>具体性质如下：</p>
+<ol>
+<li>每个节点颜色不是黑色，就是红色。</li>
+<li>根节点是黑色的。</li>
+<li>如果一个节点是红色，那么它的两个子节点就是黑色的（没有连续的红节点）。</li>
+<li>对于每个节点，从该节点到其后代叶节点的简单路径上，均包含相同数目的黑色节点。</li>
+</ol>
+<p>那么为什么当满足以上性质时，就能保证最长路径不超过最短路径的二倍了呢？</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/12.png" class="">
+
+<p>最短路径就是全黑节点，最长路径就是一个红节点一个黑节点，最后黑色节点相同时，最长路径刚好是最短路径的两倍。</p>
+<h3 id="红黑树的插入"><a href="#红黑树的插入" class="headerlink" title="红黑树的插入"></a>红黑树的插入</h3><p>红黑树插入节点过程大致分析：</p>
+<ul>
+<li>RBTree为二叉搜索树，按照二叉搜索树的方法对其进行节点插入</li>
+<li>RBTree有颜色约束性质，因此我们在插入新节点之后要进行颜色调整</li>
+</ul>
+<p>具体步骤如下：</p>
+<ol>
+<li>根节点为NULL，直接插入新节点并将其颜色置为黑色</li>
+<li>根节点不为NULL，找到要插入新节点的位置</li>
+<li>插入新节点</li>
+<li>判断新插入节点对全树颜色的影响，更新调整颜色</li>
+</ol>
+<p>插入节点如果插入节点的父亲为黑那么直接插入后返回不需要做任何调整. 但是如果插入节点的父亲为红，那么就需要调整了.具体的调整过程可以分为三个情况：</p>
+<h4 id="第一种情况"><a href="#第一种情况" class="headerlink" title="第一种情况"></a>第一种情况</h4><p>**cur为红，parent为红，pParent为黑，uncle存在且为红<br>**<strong>则将parent,uncle改为黑，pParent改为红，然后把pParent当成cur，继续向上调整。</strong></p>
+<p>此时对该子树进行操作，parent节点和uncle节点变为黑，pParent节点变为红，这样我们就保证该子树中每条路径中黑色节点相同并且没有连续的红节点，然后再让cur等于pParent节点继续往上继续调整。</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/13.png" class="">
+
+<h4 id="第二种情况"><a href="#第二种情况" class="headerlink" title="第二种情况"></a>第二种情况</h4><p><strong>cur为红，parent为红，pParent为黑，uncle不存在&#x2F;u为黑</strong><br><strong>parent为pParent的左孩子，cur为parent的左孩子，则进行右单旋转；</strong></p>
+<p>uncle不存在：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/14.png" class="">
+
+<p>uncle存在且为黑：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/15.png" class="">
+
+<p><strong>相反，parent为pParent的右孩子，cur为parent的右孩子，则进行左单旋转；</strong><br><strong>p、g变色–p变黑，g变红。</strong></p>
+<p>uncle不存在：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/16.png" class="">
+
+<p>uncle存在且为黑：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/17.png" class="">
+
+<h4 id="第三种情况"><a href="#第三种情况" class="headerlink" title="第三种情况"></a>第三种情况</h4><p><strong>cur为红，p为红，g为黑，u不存在&#x2F;u为黑</strong><br><strong>p为g的左孩子，cur为p的右孩子，则针对p做左单旋转</strong><br><strong>则转换成了情况2</strong><br>uncle不存在：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/18.png" class="">
+
+<p>uncle存在且为黑：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/19.png" class="">
+
+<p><strong>相反，p为g的右孩子，cur为p的左孩子，则针对p做右单旋转</strong><br><strong>则转换成了情况2</strong><br>uncle不存在：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/20.png" class="">
+
+<p>uncle存在且为黑：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/21.png" class="">
+
+<h1 id="索引存储"><a href="#索引存储" class="headerlink" title="索引存储"></a>索引存储</h1><h2 id="索引组织表"><a href="#索引组织表" class="headerlink" title="索引组织表"></a>索引组织表</h2><p>数据存储有<strong>堆表和索引组织表</strong>两种方式。</p>
+<p><strong>堆表中的数据无序存放，</strong> 数据的排序完全依赖于索引（Oracle、Microsoft SQL Server、PostgreSQL 早期默认支持的数据存储都是堆表结构）。</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/22.png" class="">
+
+<p>堆表的组织结构中，数据和索引分开存储。索引是排序后的数据，而堆表中的数据是无序的，索引的叶子节点存放了数据在堆表中的地址，当堆表的数据发生改变，且位置发生了变更，所有索引中的地址都要更新，这非常影响性能，特别是对于 OLTP 业务。</p>
+<p><strong>而索引组织表，数据根据主键排序存放在索引中</strong>，主键索引也叫聚集索引（Clustered Index）。在索引组织表中，数据即索引，索引即数据。</p>
+<p>MySQL InnoDB 存储引擎就是这样的数据组织方式。</p>
+<p>例如：User 表，其就是索引组织表的方式：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/23.png" class="">
+
+<p>表 User 的主键是 id，所以表中的数据根据 id 排序存储，叶子节点存放了表中完整的记录，可以看到表中的数据存放在索引中，即表就是索引，索引就是表。</p>
+<h2 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h2><p>InnoDB 存储引擎的数据是根据主键索引排序存储的，除了主键索引外，<strong>其他的索引都称之为二级索引（Secondeary Index），</strong> 或非聚集索引（None Clustered Index）。</p>
+<p>二级索引也是一颗 B+ 树索引，但它和主键索引不同的是叶子节点存放的是索引键值、主键值。</p>
+<p>通过二级索引 idx_name 只能定位主键值，需要额外再通过主键索引进行查询，才能得到最终的结果。<strong>这种“二级索引通过主键索引进行再一次查询”的操作叫作“回表”</strong>，下图为二级索引的查询：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/24.png" class="">
+
+<p>索引组织表这样的二级索引设计有一个非常大的好处：若记录发生了修改，则其他索引无须进行维护，除非记录的主键发生了修改。</p>
+<p>与堆表的索引实现对比着看，会发现索引组织表在存在大量变更的场景下，性能优势会非常明显，因为大部分情况下都不需要维护其他二级索引。</p>
+<h1 id="组合索引"><a href="#组合索引" class="headerlink" title="组合索引"></a>组合索引</h1><p>组合索引（Compound Index）是指由多个列所组合而成的 B+树索引。</p>
+<p>组合索引既可以是主键索引，也可以是二级索引，下图显示的是一个二级组合索引：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/25.png" class="">
+
+<h2 id="组合索引的-B-树结构"><a href="#组合索引的-B-树结构" class="headerlink" title="组合索引的 B+ 树结构"></a>组合索引的 B+ 树结构</h2><p>从上图可以看到，组合索引只是排序的键值从 1 个变成了多个，本质还是一颗 B+ 树索引。但是（a，b）和（b，a）这样的组合索引，其排序结果是完全不一样的。而索引的字段变多了，设计上更容易出问题，如：</p>
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/26.png" class="">
+
+<p>对组合索引（a，b）来说，因为其对列 a、b 做了排序，所以它可以对下面两个查询进行优化：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">=</span> ?</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">=</span> ？ <span class="keyword">AND</span> b <span class="operator">=</span> ？</span><br></pre></td></tr></table></figure>
+
+<p>上述 SQL 查询中，<strong>WHERE 后查询列 a 和 b 的顺序无关，即使先写 b &#x3D; ? AND a &#x3D; ？依然可以使用组合索引（a，b）。</strong><br>但是下面的 SQL 无法使用组合索引（a，b），因为（a，b）排序并不能推出（b，a）排序：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> b <span class="operator">=</span> ?</span><br></pre></td></tr></table></figure>
+
+<p>此外，同样由于索引（a，b）已排序，因此下面这条 SQL 依然可以使用组合索引（a，b），以此提升查询的效率：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> a <span class="operator">=</span> ？ <span class="keyword">ORDER</span> <span class="keyword">BY</span> b <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<p>同样的原因，索引（a，b）排序不能得出（b，a）排序，因此下面的 SQL 无法使用组合索引（a，b）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">WHERE</span> b <span class="operator">=</span> ？ <span class="keyword">ORDER</span> <span class="keyword">BY</span> a <span class="keyword">DESC</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h1><h2 id="模糊查询"><a href="#模糊查询" class="headerlink" title="模糊查询"></a>模糊查询</h2><p>如果仅仅是尾部模糊匹配，索引不会失效。如果是头部模糊匹配，索引失效。</p>
+<p><strong>为什么 like 关键字左或者左右模糊匹配无法走索引呢？</strong></p>
+<p><strong>因为索引 B+ 树是按照「索引值」有序排列存储的，只能根据前缀进行比较。</strong></p>
+<h2 id="对索引使用函数"><a href="#对索引使用函数" class="headerlink" title="对索引使用函数"></a>对索引使用函数</h2><p>如果查询条件中对索引字段使用函数，就会导致索引失效。</p>
+<p>如下查询语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span> name 为二级索引</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> t_user <span class="keyword">where</span> length(name)<span class="operator">=</span><span class="number">6</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么对索引使用函数，就无法走索引了呢？</strong></p>
+<p>因为索引保存的是索引字段的原始值，而不是经过函数计算后的值，自然就没办法走索引了。</p>
+<p>不过，从 MySQL 8.0 开始，索引特性增加了函数索引，即可以针对函数计算后的值建立一个索引，也就是说该索引的值是函数计算后的值，所以就可以通过扫描索引来查询数据。</p>
+<p>举个例子，我通过下面这条语句，对 length(name) 的计算结果建立一个名为 idx_name_length 的索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> t_user <span class="keyword">add</span> key idx_name_length ((length(name)));</span><br></pre></td></tr></table></figure>
+
+<h2 id="对索引进行表达式计算"><a href="#对索引进行表达式计算" class="headerlink" title="对索引进行表达式计算"></a>对索引进行表达式计算</h2><p>在查询条件中对索引进行表达式计算，也是无法走索引的。</p>
+<p>如下语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain <span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> t_user <span class="keyword">where</span> id <span class="operator">+</span> <span class="number">1</span> <span class="operator">=</span> <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么对索引进行表达式计算，就无法走索引了呢？</strong></p>
+<p>原因跟对索引使用函数差不多。</p>
+<p>因为索引保存的是索引字段的原始值，而不是 id + 1 表达式计算后的值，所以无法走索引，只能通过把索引字段的取值都取出来，然后依次进行表达式的计算来进行条件判断，因此采用的就是全表扫描的方式。</p>
+<h2 id="对索引隐式类型转换"><a href="#对索引隐式类型转换" class="headerlink" title="对索引隐式类型转换"></a>对索引隐式类型转换</h2><p>如果索引字段是字符串类型，但是在条件查询中，输入的参数是整型的话，在执行计划的结果这条语句会走全表扫描。</p>
+<p><strong>MySQL 在遇到字符串和数字比较的时候，会自动把字符串转为数字，然后再进行比较</strong>。</p>
+<h2 id="联合索引非最左匹配"><a href="#联合索引非最左匹配" class="headerlink" title="联合索引非最左匹配"></a>联合索引非最左匹配</h2><p>对主键字段建立的索引叫做聚簇索引，对普通字段建立的索引叫做二级索引。对<strong>多个普通字段组合在一起创建的索引就叫做联合索引</strong>，也叫组合索引。</p>
+<p>创建联合索引时，我们需要注意创建时的顺序问题，因为联合索引 (a, b, c) 和 (c, b, a) 在使用的时候会存在差别。</p>
+<p>联合索引要能正确使用需要遵循<strong>最左匹配原则</strong>，也就是按照最左优先的方式进行索引的匹配。</p>
+<p>比如，如果创建了一个 (a, b, c) 联合索引，如果查询条件是以下这几种，就可以匹配上联合索引：</p>
+<ul>
+<li>where a&#x3D;1；</li>
+<li>where a&#x3D;1 and b&#x3D;2 and c&#x3D;3；</li>
+<li>where a&#x3D;1 and b&#x3D;2；</li>
+</ul>
+<p>需要注意的是，因为有查询优化器，所以 a 字段在 where 子句的顺序并不重要。</p>
+<h2 id="WHERE-子句中的-OR"><a href="#WHERE-子句中的-OR" class="headerlink" title="WHERE 子句中的 OR"></a>WHERE 子句中的 OR</h2><p>在 WHERE 子句中，如果在 OR 前的条件列是索引列，而在 OR 后的条件列不是索引列，那么索引会失效。</p>
+<p>当 OR 连接的条件，左右两侧字段都有索引时，索引才会生效。</p>
+<h1 id="索引选择"><a href="#索引选择" class="headerlink" title="索引选择"></a>索引选择</h1><h2 id="MySQL是如何选择索引"><a href="#MySQL是如何选择索引" class="headerlink" title="MySQL是如何选择索引"></a>MySQL是如何选择索引</h2><p>如下表orders</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `orders` (</span><br><span class="line"></span><br><span class="line">  `O_ORDERKEY` <span class="type">int</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_CUSTKEY` <span class="type">int</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_ORDERSTATUS` <span class="type">char</span>(<span class="number">1</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_TOTALPRICE` <span class="type">decimal</span>(<span class="number">15</span>,<span class="number">2</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_ORDERDATE` <span class="type">date</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_ORDERPRIORITY` <span class="type">char</span>(<span class="number">15</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_CLERK` <span class="type">char</span>(<span class="number">15</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_SHIPPRIORITY` <span class="type">int</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  `O_COMMENT` <span class="type">varchar</span>(<span class="number">79</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"></span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`O_ORDERKEY`),</span><br><span class="line"></span><br><span class="line">  KEY `idx_custkey_orderdate` (`O_CUSTKEY`,`O_ORDERDATE`),</span><br><span class="line"></span><br><span class="line">  KEY `ORDERS_FK1` (`O_CUSTKEY`),</span><br><span class="line"></span><br><span class="line">  KEY `idx_custkey_orderdate_totalprice` (`O_CUSTKEY`,`O_ORDERDATE`,`O_TOTALPRICE`),</span><br><span class="line"></span><br><span class="line">  <span class="keyword">CONSTRAINT</span> `orders_ibfk_1` <span class="keyword">FOREIGN</span> KEY (`O_CUSTKEY`) <span class="keyword">REFERENCES</span> `customer` (`C_CUSTKEY`)</span><br><span class="line"></span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB</span><br></pre></td></tr></table></figure>
+
+<p>在查询字段 o_custkey 时，理论上可以使用三个相关的索引：ORDERS_FK1、idx_custkey_orderdate、idx_custkey_orderdate_totalprice。<strong>那 MySQL 优化器是如何从这三个索引中进行选择？</strong></p>
+<p>在关系型数据库中，B+ 树索引只是存储的一种数据结构，具体怎么使用，还要依赖数据库的优化器，优化器决定了具体某一索引的选择，也就是执行计划。</p>
+<p><strong>而优化器的选择是基于成本（cost），哪个索引的成本越低，优先使用哪个索引。</strong></p>
+<h2 id="MySQL-执行过程"><a href="#MySQL-执行过程" class="headerlink" title="MySQL 执行过程"></a>MySQL 执行过程</h2><p>MySQL 数据库由 Server 层和 Engine 层组成：</p>
+<ul>
+<li>Server 层有 SQL 分析器、SQL优化器、SQL 执行器，用于负责 SQL 语句的具体执行过程；</li>
+<li>Engine 层负责存储具体的数据，如最常使用的 InnoDB 存储引擎，还有用于在内存中存储临时结果集的 TempTable 引擎。</li>
+</ul>
+<p>SQL 优化器会分析所有可能的执行计划，选择成本最低的执行，这种优化器称之为：<strong>CBO（Cost-based Optimizer，基于成本的优化器</strong>）。</p>
+<p>在 MySQL中，<strong>一条 SQL 的计算成本计算如下所示：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cost  <span class="operator">=</span> Server Cost <span class="operator">+</span> Engine Cost</span><br><span class="line">      <span class="operator">=</span> CPU Cost <span class="operator">+</span> IO Cost</span><br></pre></td></tr></table></figure>
+
+<p>其中，CPU Cost 表示计算的开销，比如索引键值的比较、记录值的比较、结果集的排序……这些操作都在 Server 层完成；</p>
+<p>IO Cost 表示引擎层 IO 的开销，MySQL 8.0 可以通过区分一张表的数据是否在内存中，分别计算读取内存 IO 开销以及读取磁盘 IO 的开销。</p>
+<p>数据库 mysql 下的表 server_cost、engine_cost 则记录了对于各种成本的计算，如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> mysql.server_cost;</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/27.png" class="">
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> mysql.engine_cost;</span><br></pre></td></tr></table></figure>
+
+<img src="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/28.png" class="">
+
+<p>表 server_cost 记录了 Server 层优化器各种操作的成本，这里面包括了所有 CPU Cost，其具体含义如下。</p>
+<ul>
+<li>disk_temptable_create_cost：创建磁盘临时表的成本，默认为20。</li>
+<li>disk_temptable_row_cost：磁盘临时表中每条记录的成本，默认为0.5。</li>
+<li>key_compare_cost：索引键值比较的成本，默认为0.05，成本最小。</li>
+<li>memory_temptable_create_cost：创建内存临时表的成本：默认为1。</li>
+<li>memory_temptable_row_cost：内存临时表中每条记录的成本，默认为0.1。</li>
+<li>row_evaluate_cost：记录间的比较成本，默认为0.1。</li>
+</ul>
+<p>MySQL 优化器认为如果一条 SQL 需要创建基于磁盘的临时表，则这时的成本是最大的，其成本是基于内存临时表的 20 倍。而索引键值的比较、记录之间的比较，其实开销是非常低的，但如果要比较的记录数非常多，则成本会变得非常大。</p>
+<p>表 engine_cost 记录了存储引擎层各种操作的成本，这里包含了所有的 IO Cost，具体含义如下。</p>
+<ul>
+<li>io_block_read_cost：从磁盘读取一个页的成本，默认值为1。</li>
+<li>memory_block_read_cost：从内存读取一个页的成本，默认值为0.25。</li>
+</ul>
+<p>MySQL 优化器认为从磁盘读取的开销是内存开销的 4 倍。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><div class="post_share"><div class="social-share" data-image="https://s1.imagehub.cc/images/2023/08/02/wallhaven-yx2mpd.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/01/MySQL-%E4%BA%8B%E5%8A%A1/"><img class="prev-cover" src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-x6pxjv.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">MySQL-事务</div></div></a></div><div class="next-post pull-right"><a href="/2023/07/18/Java%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/"><img class="next-cover" src="https://s1.imagehub.cc/images/2023/07/18/wallhaven-yxv8pd.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java异常机制详解</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/04/30/01%E4%B8%80%E6%9D%A1SQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%84%EF%BC%9F/" title="01一条SQL查询语句是如何执行的？"><img class="cover" src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-0qkmr0.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-30</div><div class="title">01一条SQL查询语句是如何执行的？</div></div></a></div><div><a href="/2023/08/02/MySQL-%E6%97%A5%E5%BF%97/" title="MySQL-日志"><img class="cover" src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-wemz66.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-02</div><div class="title">MySQL-日志</div></div></a></div><div><a href="/2023/08/01/MySQL-%E4%BA%8B%E5%8A%A1/" title="MySQL-事务"><img class="cover" src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-x6pxjv.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-01</div><div class="title">MySQL-事务</div></div></a></div><div><a href="/2023/08/02/MySQL-%E9%94%81/" title="MySQL-锁"><img class="cover" src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-x6px3z.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-08-02</div><div class="title">MySQL-锁</div></div></a></div><div><a href="/2023/04/10/SQL/" title="SQL"><img class="cover" src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-4xdlmd.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-10</div><div class="title">SQL</div></div></a></div><div><a href="/2023/04/11/%E5%87%BD%E6%95%B0/" title="函数"><img class="cover" src="https://s1.imagehub.cc/images/2023/05/23/wallhaven-8xp82k.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-11</div><div class="title">函数</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/dog.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">yangshuai-wang</div><div class="author-info__description">good good study! day day up!</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wangys102"><i class="fab fa-github"></i><span>Github</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/wangys102" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">索引数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE%E6%A0%91%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">什么是二分查找树？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%87%AA%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">什么是自平衡二叉树？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-B-%E6%A0%91%EF%BC%9F"><span class="toc-number">1.3.</span> <span class="toc-text">什么是 B 树？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-B-%E6%A0%91%EF%BC%9F-1"><span class="toc-number">1.4.</span> <span class="toc-text">什么是 B+ 树？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.4.1.</span> <span class="toc-text">单点查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E5%92%8C%E5%88%A0%E9%99%A4%E6%95%88%E7%8E%87"><span class="toc-number">1.4.2.</span> <span class="toc-text">插入和删除效率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8C%83%E5%9B%B4%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.4.3.</span> <span class="toc-text">范围查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-%E4%B8%AD%E7%9A%84-B-%E6%A0%91"><span class="toc-number">1.5.</span> <span class="toc-text">MySQL 中的 B+ 树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%9F"><span class="toc-number">1.6.</span> <span class="toc-text">什么是红黑树？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-number">1.6.1.</span> <span class="toc-text">红黑树的性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91%E7%9A%84%E6%8F%92%E5%85%A5"><span class="toc-number">1.6.2.</span> <span class="toc-text">红黑树的插入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%83%85%E5%86%B5"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">第一种情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%83%85%E5%86%B5"><span class="toc-number">1.6.2.2.</span> <span class="toc-text">第二种情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%A7%8D%E6%83%85%E5%86%B5"><span class="toc-number">1.6.2.3.</span> <span class="toc-text">第三种情况</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8"><span class="toc-number">2.</span> <span class="toc-text">索引存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%84%E7%BB%87%E8%A1%A8"><span class="toc-number">2.1.</span> <span class="toc-text">索引组织表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95"><span class="toc-number">2.2.</span> <span class="toc-text">二级索引</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95"><span class="toc-number">3.</span> <span class="toc-text">组合索引</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84-B-%E6%A0%91%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">组合索引的 B+ 树结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88"><span class="toc-number">4.</span> <span class="toc-text">索引失效</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2"><span class="toc-number">4.1.</span> <span class="toc-text">模糊查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E7%B4%A2%E5%BC%95%E4%BD%BF%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">对索引使用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E7%B4%A2%E5%BC%95%E8%BF%9B%E8%A1%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97"><span class="toc-number">4.3.</span> <span class="toc-text">对索引进行表达式计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E7%B4%A2%E5%BC%95%E9%9A%90%E5%BC%8F%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.4.</span> <span class="toc-text">对索引隐式类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E9%9D%9E%E6%9C%80%E5%B7%A6%E5%8C%B9%E9%85%8D"><span class="toc-number">4.5.</span> <span class="toc-text">联合索引非最左匹配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WHERE-%E5%AD%90%E5%8F%A5%E4%B8%AD%E7%9A%84-OR"><span class="toc-number">4.6.</span> <span class="toc-text">WHERE 子句中的 OR</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E9%80%89%E6%8B%A9"><span class="toc-number">5.</span> <span class="toc-text">索引选择</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL%E6%98%AF%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E7%B4%A2%E5%BC%95"><span class="toc-number">5.1.</span> <span class="toc-text">MySQL是如何选择索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-number">5.2.</span> <span class="toc-text">MySQL 执行过程</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/08/02/MySQL-%E6%97%A5%E5%BF%97/" title="MySQL-日志"><img src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-wemz66.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL-日志"/></a><div class="content"><a class="title" href="/2023/08/02/MySQL-%E6%97%A5%E5%BF%97/" title="MySQL-日志">MySQL-日志</a><time datetime="2023-08-02T13:49:12.000Z" title="发表于 2023-08-02 21:49:12">2023-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/02/MySQL-%E9%94%81/" title="MySQL-锁"><img src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-x6px3z.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL-锁"/></a><div class="content"><a class="title" href="/2023/08/02/MySQL-%E9%94%81/" title="MySQL-锁">MySQL-锁</a><time datetime="2023-08-02T13:48:58.000Z" title="发表于 2023-08-02 21:48:58">2023-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/02/Java%E9%9B%86%E5%90%88Stack%E5%92%8CQueue%E8%AF%A6%E8%A7%A3/" title="Java集合Stack和Queue详解"><img src="https://s1.imagehub.cc/images/2023/07/18/wallhaven-rrjxpw.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java集合Stack和Queue详解"/></a><div class="content"><a class="title" href="/2023/08/02/Java%E9%9B%86%E5%90%88Stack%E5%92%8CQueue%E8%AF%A6%E8%A7%A3/" title="Java集合Stack和Queue详解">Java集合Stack和Queue详解</a><time datetime="2023-08-02T05:19:54.000Z" title="发表于 2023-08-02 13:19:54">2023-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/01/MySQL-%E4%BA%8B%E5%8A%A1/" title="MySQL-事务"><img src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-x6pxjv.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL-事务"/></a><div class="content"><a class="title" href="/2023/08/01/MySQL-%E4%BA%8B%E5%8A%A1/" title="MySQL-事务">MySQL-事务</a><time datetime="2023-08-01T11:52:20.000Z" title="发表于 2023-08-01 19:52:20">2023-08-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/" title="MySQL-索引"><img src="https://s1.imagehub.cc/images/2023/08/02/wallhaven-yx2mpd.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL-索引"/></a><div class="content"><a class="title" href="/2023/08/01/MySQL-%E7%B4%A2%E5%BC%95/" title="MySQL-索引">MySQL-索引</a><time datetime="2023-08-01T11:51:02.000Z" title="发表于 2023-08-01 19:51:02">2023-08-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By yangshuai-wang</div><div class="footer_custom_text">Hi, welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
